@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { withBasePath } from "@/lib/base-path";
 import { education, experience, skills, summary } from "@/lib/resume";
 import { site, socials } from "@/lib/site";
 
@@ -20,7 +21,8 @@ export default function ResumePage() {
         </div>
 
         <a
-          href="/resume.pdf"
+          // A plain <a>, so basePath is not applied automatically.
+          href={withBasePath("/resume.pdf")}
           download
           className="inline-flex shrink-0 items-center gap-2 rounded-md border border-border px-3 py-2 text-sm transition-colors hover:border-accent hover:text-accent"
         >

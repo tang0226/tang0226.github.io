@@ -1,0 +1,58 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  # Lets you re-run a deploy from the Actions tab without pushing.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  # Both are required by actions/deploy-pages.
+  pages: write
+  id-token: write
+
+# Let a running deploy finish rather than cancelling it partway.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build static export
+        env:
+          # Must match the repository name: the site is served from
+          # https://tang0226.github.io/tang0226/. Change both this and
+          # `site.url` in lib/site.ts if the repo is ever renamed.
+          NEXT_PUBLIC_BASE_PATH: /tang0226
+        run: npm run build
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          # `output: "export"` in next.config.ts writes the site here.
+          path: ./out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

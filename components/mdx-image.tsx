@@ -3,6 +3,8 @@ import path from "node:path";
 
 import Image from "next/image";
 
+import { withBasePath } from "@/lib/base-path";
+
 /**
  * Renders a markdown image (`![alt](/projects/shot.png)`) at its natural
  * aspect ratio.
@@ -22,7 +24,10 @@ export async function MdxImage({ src, alt }: { src?: string; alt?: string }) {
     return <img src={src} alt={alt ?? ""} className={FRAME} />;
   }
 
+  // Measure against the on-disk path, but render the deployed URL:
+  // next/image does not apply basePath to `src` for us.
   const size = await intrinsicSize(src);
+  const url = withBasePath(src);
 
   if (!size) {
     // Unreadable file: let next/image fetch it and keep the aspect ratio
@@ -30,7 +35,7 @@ export async function MdxImage({ src, alt }: { src?: string; alt?: string }) {
     return (
       <span className="relative my-8 block aspect-16/9 overflow-hidden rounded-lg border border-border bg-surface">
         <Image
-          src={src}
+          src={url}
           alt={alt ?? ""}
           fill
           className="object-contain"
@@ -42,7 +47,7 @@ export async function MdxImage({ src, alt }: { src?: string; alt?: string }) {
 
   return (
     <Image
-      src={src}
+      src={url}
       alt={alt ?? ""}
       width={size.width}
       height={size.height}

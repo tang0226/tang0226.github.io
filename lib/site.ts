@@ -10,8 +10,9 @@ export const site = {
   intro:
     "",
   email: "tobya0226@gmail.com",
-  // The canonical URL, used for metadata. Update after your first deploy.
-  url: "https://example.com",
+  // Canonical URL, used to resolve metadata/Open Graph links.
+  // GitHub Pages serves this repo as a project site, hence the /tang0226 path.
+  url: "https://tang0226.github.io/tang0226",
 } as const;
 
 export const nav = [
