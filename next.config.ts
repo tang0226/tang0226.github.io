@@ -1,15 +1,13 @@
 import type { NextConfig } from "next";
 
-// Kept in sync with lib/base-path.ts. Set by the deploy workflow; empty locally.
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-
 const nextConfig: NextConfig = {
   // Emit a plain HTML/CSS/JS site into `out/` — GitHub Pages serves static
   // files only. Note this disables `next start`; use `npm run dev` locally.
   output: "export",
 
-  // Serves the app under https://tang0226.github.io/tang0226/.
-  basePath,
+  // This repo is `<user>.github.io`, a *user* site served at
+  // https://tang0226.github.io/ — so no basePath. (Project sites need
+  // `basePath: "/<repo>"`, user sites must not have one.)
 
   // Emits `about/index.html` instead of `about.html`, which is what GitHub
   // Pages expects when resolving a directory-style URL.

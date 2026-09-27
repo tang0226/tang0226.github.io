@@ -11,8 +11,8 @@ export const site = {
     "",
   email: "tobya0226@gmail.com",
   // Canonical URL, used to resolve metadata/Open Graph links.
-  // GitHub Pages serves this repo as a project site, hence the /tang0226 path.
-  url: "https://tang0226.github.io/tang0226",
+  // This is a `<user>.github.io` user site, served at the domain root.
+  url: "https://tang0226.github.io",
 } as const;
 
 export const nav = [

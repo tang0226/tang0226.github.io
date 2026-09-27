@@ -32,11 +32,8 @@ jobs:
         run: npm ci
 
       - name: Build static export
-        env:
-          # Must match the repository name: the site is served from
-          # https://tang0226.github.io/tang0226/. Change both this and
-          # `site.url` in lib/site.ts if the repo is ever renamed.
-          NEXT_PUBLIC_BASE_PATH: /tang0226
+        # No NEXT_PUBLIC_BASE_PATH: this is a `<user>.github.io` user site
+        # served at the domain root, not a project site under /<repo>/.
         run: npm run build
 
       - uses: actions/configure-pages@v5
